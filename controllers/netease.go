@@ -12,7 +12,7 @@ type NetEaseController struct {
 func (c *NetEaseController) Search() {
 	q:=c.GetString("q")
 	p:=c.GetString("p")
-	res:=models.Query(p,q)
+	res:=(&models.NetEase{}).Search(p,q)
 	c.Data["json"] = &res
 	c.ServeJSON()
 }

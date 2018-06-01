@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="/static/css/index.css" rel="stylesheet"/>
+    <link href="/static/css/audioplayer.css" rel="stylesheet"/>
+    <!-- Amaze UI CSS -->
+    <link rel="stylesheet" href="https://s2.pstatp.com/cdn/expire-1-M/amazeui/2.7.2/css/amazeui.min.css">
+    <!-- mui -->
+    <link rel="stylesheet" href="https://s1.pstatp.com/cdn/expire-1-M/mui/3.4.0/css/mui.min.css">
+    <script src="https://s1.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://s0.pstatp.com/cdn/expire-1-M/mui/3.4.0/js/mui.min.js"></script>
+</head>
+<body>
+<div class="am-u-sm-12 am-u-sm-centered am-u-lg-6">
+<div class="mui-card">
+    <div class="mui-card-header">个人音乐实验室</div>
+    <div class="mui-card-content-inner">
+        <div class="mui-input-row mui-search">
+                <input type="search" class="mui-input-clear" placeholder="" id="search_input"/>
+        </div>
+        <div class="am-form-group">
+            <label class="am-radio-inline"><input type="radio"  value="netease" name="music_type" checked> 网易</label>
+            <label class="am-radio-inline"><input type="radio"  value="kuwo" name="music_type"> 酷我</label>
+        </div>
+        <div id="progressbar"></div>
+        <ul class="mui-table-view mui-table-view-chevron" id="search_list">
+        </ul>
+    </div>
+    <div class="mui-card-footer">
+        <div id="pages" class="page-parent"></div>
+    </div>
+</div>
+<div class="mui-card">
+     <div class="mui-card-content-inner">
+         <ul class="mui-table-view">
+             <div class="mui-row">
+                 <span class="mui-icon mui-icon-flag"></span>
+                 <a class="mui-navigate-right" href="https://github.com/qiusunshine/musicnow" target="_blank">源码下载</a>
+             </div>
+         </ul>
+     </div>
+</div>
+</div>
+<!--[if lt IE 9]>
+<script src="https://s1.pstatp.com/cdn/expire-1-M/modernizr/2010.07.06dev/modernizr.min.js"></script>
+<script src="https://s1.pstatp.com/cdn/expire-1-M/respond.js/1.4.2/respond.min.js"></script>
+<script src="//cdn.amazeui.org/amazeui/2.1.0/js/amazeui.legacy.min.js"></script>
+<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="https://s1.pstatp.com/cdn/expire-1-M/amazeui/2.7.2/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script type="text/javascript" src="/static/js/index.js" ></script>
+<script type="text/javascript" src="/static/js/audioplayer.min.js" ></script>
+</body>
+</html>

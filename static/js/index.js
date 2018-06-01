@@ -1,27 +1,3 @@
-function goSearch(e){
-    mui("#progressbar").progressbar().show();
-	//console.log(e);
-	mui.ajax('./netease/search',{
-	data:{
-		q:e,
-		p:page
-	},
-	dataType:'json',//服务器返回json格式数据
-	type:'post',//HTTP请求类型
-	timeout:10000,//超时时间设置为10秒；
-	success:function(data){
-		//console.log(data);
-        mui("#progressbar").progressbar().hide();
-		addHtml(data);
-	},
-	error:function(xhr,type,errorThrown){
-		//异常处理；
-        mui("#progressbar").progressbar().hide();
-        mui.toast('出错：'+errorThrown,{ duration:'long', type:'div' });
-		console.log(type);
-	}
-	});
-}
 function addPages(){
     var f = document.getElementById("pages");
     var childs = f.childNodes;
@@ -37,7 +13,6 @@ function addPages(){
         document.getElementById('pageGo').addEventListener("click",function (ev) {
             console.log("click");
             page = mui("#pages").numbox().getValue();
-            console.log(page);
             goSearch(document.getElementById("search_input").value);
         });
     }
@@ -46,7 +21,7 @@ function addHtml(data){
     var str='';
     for(var i=0; i<data.length ;i++){
         var r = "<li class=\"mui-table-view-cell\">"+
-            "<a href=\"javascript:void(0);\" title=\""+data[i].Url+"\" onclick='clickList(this)'>"+data[i].Name+"</a>"+
+            "<a href=\"javascript:void(0);\" title=\""+data[i].Url+"\" onclick='clickList(this"+","+data[i].Id+")'>"+data[i].Name+"</a>"+
             "<span class=\"mui-badge mui-badge-success\">"+data[i].Author+"</span>"+
             "</li>";
         str += r; //拼接str
@@ -57,23 +32,6 @@ function addHtml(data){
         mui("#pages").numbox().setValue(1);
     }
 }
-function clickList(that) {
-    //console.log(that.getAttribute("title"));
-    mui.confirm('', '选择您想要的操作', ['播放', '取消', '下载'], function(e) {
-        switch (e.index){
-            case 0:
-                //mui.toast(that.getAttribute("title"));
-                addMusicPlayer(that.getAttribute("title"));
-                break;
-            case 1:
-                break;
-            default:
-                window.open(that.getAttribute("title"));
-                break;
-        }
-    })
-}
-
 function addMusicPlayer(url) {
     console.log("加载audioplayer成功");
     var d = document.createElement('div');
@@ -101,7 +59,72 @@ function addMusicPlayer(url) {
         });
     });
 }
+function chooseGo(url) {
+    mui.confirm('', '选择您想要的操作', ['播放', '取消', '下载'], function(e) {
+        switch (e.index){
+            case 0:
+                //mui.toast(that.getAttribute("title"));
+                addMusicPlayer(url);
+                break;
+            case 1:
+                break;
+            default:
+                window.open(url);
+                break;
+        }
+    })
+}
+function clickList(that,id) {
+    if(that.getAttribute("title")==="no"){
+       getDesc(id);
+    }else{
+        chooseGo(that.getAttribute("title"));
+    }
+}
+function goSearch(e){
+    type = $("input[name='music_type']:checked").val();
+    console.log(type);
+    mui("#progressbar").progressbar().show();
+    mui.ajax('/sou/search',{
+        data:{q:e, p:page, type:type},
+        dataType:'json',//服务器返回json格式数据
+        type:'post',//HTTP请求类型
+        timeout:10000,//超时时间设置为10秒；
+        success:function(data){
+            mui("#progressbar").progressbar().hide();
+            addHtml(data);
+        },
+        error:function(xhr,type,errorThrown){
+            //异常处理；
+            mui("#progressbar").progressbar().hide();
+            mui.toast('出错：'+errorThrown,{ duration:'long', type:'div' });
+            console.log(type);
+        }
+    });
+}
+function getDesc(id){
+    mui("#progressbar").progressbar().show();
+    mui.ajax('/sou/desc',{
+        data:{id:id, type:type},
+        dataType:'json',
+        type:'post',
+        timeout:10000,
+        success:function(data){
+            mui("#progressbar").progressbar().hide();
+            console.log(data);
+            if(data.Url!==null&&data.Url!=="")chooseGo(data.Url);
+            else mui.toast('居然没有获取到数据！',{ duration:'long', type:'div' });
+        },
+        error:function(xhr,type,errorThrown){
+            //异常处理；
+            mui("#progressbar").progressbar().hide();
+            mui.toast('出错：'+errorThrown,{ duration:'long', type:'div' });
+            console.log(type);
+        }
+    });
+}
 var page = 1;
+var type="netease";
 var search = document.getElementById("search_input");
 search.addEventListener("keypress", function(e) { 
 	if (e.keyCode == "13") {
